@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.6.1.min.js'></script>
+  <script type="text/javascript" src="../src/jquery.codefilter.js"></script>
+  <script>
+    jQuery(function($) {
+      $("#code").codeFilter("#ddl");
+      $("#code").focus();
+    });
+  </script>
+</head>
+<body>
+  <div id="main">
+    <form name="foo" onsubmit="return false">
+      <div class="input">
+        <h3>Color</h3>
+        <input type="input" name="code" id="code" size="10" value="" tabindex="1" /> -
+        <select name="ddl" id="ddl" tabindex="-1">
+          <option value=""></option>
+          <option value="01">Red</option>
+          <option value="02">Blue</option>
+          <option value="11">Yellow</option>
+          <option value="12">Green</option>
+          <option value="20">Black</option>
+          <option value="21">White</option>
+        </select>
+      </div>
+      <div class="input">
+        <h3>Other</h3>
+        <input type="input" name="other" id="other" size="20" value="" tabindex="2" />
+      </div>
+    </form>
+  </div>
+</body>
+</html>
