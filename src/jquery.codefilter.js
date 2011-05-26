@@ -1,50 +1,54 @@
-(function($) {
+$.fn.hideOption = function() {
+  return this.each(function() {
+    $(this).wrap('<span>').parent().hide()
+  });
+};
 
-  $.fn.hideOption = function() {
-    this.each(function() {
-      $(this).wrap('<span>').parent().hide()
+$.fn.showOption = function() {
+  return this.each(function() {
+    var $span = $(this);
+    var opt = $span.children()[0];
+    $span.replaceWith(opt);
+  });
+};
+
+$.fn.codefilter = function(selector, options) {
+
+  var options = $.extend({
+    selector_size: 3
+  }, options);
+
+  return this.each(function() {
+
+    // prepare elements
+    var $code = $(this);
+    var $selector = $(selector);
+
+    // bind events
+    $code.bind({
+      focus: function() { $selector.attr('size', options.selector_size); },
+      blur: function() { $selector.attr('size', 1); }
     });
-  };
 
-  $.fn.showOption = function() {
-    this.each(function() {
-      var $span = $(this);
-      var opt = $span.children()[0];
-      $span.replaceWith(opt);
-    });
-  };
-
-  var CodeFilter = function (src, where, settings) {
-    settings = jQuery.extend({
-        property: 'text'
-    }, settings);
-
-    var $src = $(src);
-    var $where = $(where);
-
-    $src.bind({
-      focus: function() { $where.attr('size', 2); },
-      blur: function() { $where.attr('size', 1); }
+    $selector.bind('change', function() {
+      $code.val(this.value);
     });
 
-    $src.bind('keyup', function() {
-      var code = $src.val();
+    $code.bind('keyup', function() {
+      var code = $code.val();
 
-      $where.val(code);
+      $selector.val(code);
 
       if (code.length == 0) {
-        $where.children('span').showOption();
+        $selector.children('span').showOption();
         return;
       }
 
-      $where.children('option:not([value^="' + code + '"])').hideOption();
-      $where.find('span > option[value^="' + code + '"]').parent().showOption();
+      $selector.children('option:not([value^="' + code + '"])').hideOption();
+      $selector.find('span > option[value^="' + code + '"]').parent().showOption();
     });
-  }
 
-  $.fn.codeFilter = function (where, opts) {
-	  var bleh =  new CodeFilter(this, where, opts);
-  }
+  });
 
-})(jQuery);
-/* END */
+};
+
