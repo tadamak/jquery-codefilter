@@ -15,7 +15,8 @@ $.fn.showOption = function() {
 $.fn.codefilter = function(selector, options) {
 
   var options = $.extend({
-    selector_size: 3
+    selector_size: 1,
+    hide_filtered: false
   }, options);
 
   return this.each(function() {
@@ -39,13 +40,15 @@ $.fn.codefilter = function(selector, options) {
 
       $selector.val(code);
 
-      if (code.length == 0) {
-        $selector.children('span').showOption();
-        return;
-      }
+      if (options.hide_filtered) {
+        if (code.length == 0) {
+          $selector.children('span').showOption();
+          return;
+        }
 
-      $selector.children('option:not([value^="' + code + '"])').hideOption();
-      $selector.find('span > option[value^="' + code + '"]').parent().showOption();
+        $selector.children('option:not([value^="' + code + '"])').hideOption();
+        $selector.find('span > option[value^="' + code + '"]').parent().showOption();
+      }
     });
 
   });
